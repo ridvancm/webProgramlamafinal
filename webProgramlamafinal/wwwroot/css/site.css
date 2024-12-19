@@ -1,0 +1,68 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    background-image:url(pexels-vanmalidate-769289.jpg)
+  margin-bottom: 60px;
+}
+/* Header büyüklüðü ve renk düzeni */
+.custom-navbar {
+    height: 100px; /* Yüksekliði artýrdýk */
+    background-color:sienna; /* Mavi renk */
+    color: white; /* Metin rengi beyaz */
+}
+
+    .custom-navbar .navbar-brand,
+    .custom-navbar .nav-link {
+        color: white !important; /* Link renklerini beyaz yaptýk */
+        font-size: 1.2rem; /* Yazý boyutunu büyüttük */
+    }
+
+        .custom-navbar .nav-link:hover {
+            color: #ffdd57 !important; /* Üzerine gelindiðinde sarý renge dönüþür */
+        }
+.navbar-nav .nav-item .nav-link {
+    font-size: 1.1rem;
+    padding: 8px 15px;
+    border-radius: 5px;
+}
+
+    .navbar-nav .nav-item .nav-link:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+        color: #007bff;
+    }
+
+.navbar-brand {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; /* Yazý tipi deðiþtirildi */
+    font-size: 2rem; /* Yazý boyutunu büyüttük */
+    color: white; /* Yazý rengi */
+    padding: 10px 20px; /* Ýçerik etrafýnda boþluk býrakýldý */
+    border: 2px solid #ff6347; /* Çerçeve rengi */
+    border-radius: 15px; /* Köþe yuvarlatmasý */
+    background-color: rgba(255, 99, 71, 0.1); /* Hafif arka plan rengi */
+    text-transform: uppercase; /* Yazýyý büyük harfe dönüþtürme */
+    transition: all 0.3s ease; /* Hover animasyonu için geçiþ efekti */
+}
+
+    .navbar-brand:hover {
+        background-color: #ff6347; /* Hover durumunda arka plan rengi deðiþir */
+        color: white; /* Hover durumunda yazý rengi beyaz olur */
+        border-color: #ff6347; /* Çerçeve hoverda sabit kalýr */
+    }
+

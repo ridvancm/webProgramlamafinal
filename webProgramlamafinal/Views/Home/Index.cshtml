@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-image: url(https://images.pexels.com/photos/1310777/pexels-photo-1310777.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .slogan-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        .slogan {
+            font-size: 3rem;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .category-container {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 2;
+        }
+
+            .category-container h3 {
+                color: white;
+                font-size: 2rem;
+                margin-bottom: 1rem;
+            }
+
+        .categories {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+            .categories a {
+                padding: 10px 20px;
+                background-color: rgba(0, 0, 0, 0.6);
+                color: white;
+                text-decoration: none;
+                border-radius: 5px;
+                font-size: 1.2rem;
+            }
+
+                .categories a:hover {
+                    background-color: rgba(255, 255, 255, 0.7);
+                    color: #007bff;
+                }
+
+        .search-bar {
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+            .search-bar input[type="text"] {
+                padding: 10px;
+                font-size: 1rem;
+                width: 300px;
+                border: none;
+                border-radius: 5px;
+            }
+
+            .search-bar button {
+                padding: 10px 20px;
+                font-size: 1rem;
+                background-color: sienna;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
+                .search-bar button:hover {
+                    background-color: #0056b3;
+                }
+
+        /* Tarif Ekle Butonu */
+        .add-recipe-button {
+            position: fixed; /* Sabit konumlandırma */
+            bottom: 20px; /* Alt kenara 20px mesafe */
+            right: 20px; /* Sağ kenara 20px mesafe */
+            padding: 15px 30px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 1.5rem;
+        }
+
+
+            .add-recipe-button:hover {
+                background-color: rgba(255, 255, 255, 0.7);
+                color: #007bff;
+            }
+    </style>
+
+</head>
+<body>
+    <div class="slogan-container">
+        <div class="slogan">
+            "Lezzetinizin Masalını Yazın"
+        </div>
+    </div>
+
+    <!-- Kategoriler ve Arama Barı -->
+    <div class="category-container">
+        <h3>Yemek Kategorileri</h3>
+        <div class="categories">
+            
+            <a href="/Recipes?category=EastAsianCuisine">Uzak Doğu Mutfağı</a>
+            <a href="/Recipes?category=TurkishCuisine">Türk Mutfağı</a>
+            <a href="/Recipes?category=MediterraneanCuisine">Akdeniz Mutfağı</a>
+        </div>
+    </div>
+
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Tarif Ara..." />
+        <button onclick="searchRecipe()">Ara</button>
+    </div>
+
+    <!-- Tarif Ekle Butonu -->
+    <div class="add-recipe-container">
+        <a href="/Home/Add" class="add-recipe-button">Tarifinizi Ekleyin</a>
+    </div>
+
+    <script>
+        function searchRecipe() {
+            const query = document.getElementById("searchInput").value;
+            if (query) {
+                window.location.href = `/Recipes/Search?query=${query}`;
+            }
+        }
+    </script>
+</body>
+</html>
