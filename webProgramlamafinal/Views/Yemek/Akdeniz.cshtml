@@ -1,0 +1,279 @@
+﻿@model IEnumerable<WebProgramlamaFinal.Models.Yemek>
+@{
+    var backgroundUrl = Url.Content("https://st4.depositphotos.com/3308451/39646/i/450/depositphotos_396465170-stock-photo-flat-lay-family-celebrating-rustic.jpg");
+    var kullaniciTarifleri = ViewBag.KullaniciTarifleri as List<WebProgramlamaFinal.Models.KullaniciTarifi>;
+}
+
+<div class="background"></div>
+
+<div class="content">
+    <h2 class="main-title">Akdeniz Mutfağı</h2>
+
+    <!-- Arama Çubuğu -->
+    <input type="text" id="searchBar" onkeyup="searchYemek()" placeholder="Yemek İsmi Ara...">
+
+    <div style="display: flex;">
+        <!-- Kullanıcı Tarifleri -->
+        <div style="flex: 1; padding-right: 10px;">
+            <h3 class="category-title">Kullanıcı Tarifleri</h3>
+            <div id="kullaniciTarifListesi">
+                @foreach (var tarif in kullaniciTarifleri)
+                {
+                    <div class="yemek transparent-box" onclick="showModal('@tarif.ResimUrl', '@tarif.Ad', '@tarif.Malzemeler', '@tarif.Tarif')">
+                        <img src="@tarif.ResimUrl" alt="@tarif.Ad" width="200" />
+                        <h3>@tarif.Ad</h3>
+                        <p><strong>Malzemeler:</strong> @tarif.Malzemeler</p>
+                        <p><strong>Tarif:</strong> @tarif.Tarif</p>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Sitenin Tarifleri -->
+        <div style="flex: 1; padding-left: 10px;">
+            <h3 class="category-title">Sitenin Tarifleri</h3>
+            <div id="yemekListesi">
+                @foreach (var yemek in Model)
+                {
+                    <div class="yemek transparent-box" onclick="showModal('@yemek.ResimUrl', '@yemek.Ad', '@yemek.Malzemeler', '@yemek.Tarif')">
+                        <img src="@yemek.ResimUrl" alt="@yemek.Ad" width="200" />
+                        <h3>@yemek.Ad</h3>
+                        <p><strong>Malzemeler:</strong> @yemek.Malzemeler</p>
+                        <p><strong>Tarif:</strong> @yemek.Tarif</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="tarifModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div class="modal-inner">
+                <img id="modalImage" src="" alt="" />
+                <div class="modal-text">
+                    <h3 id="modalTitle"></h3>
+                    <p><strong>Malzemeler:</strong></p>
+                    <ul id="modalIngredientsList"></ul>
+                    <p><strong>Tarif:</strong> <span id="modalInstructions"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    body, html {
+        height: 100%;
+        margin: 0;
+        background: none;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    .background::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('@backgroundUrl');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        filter: blur(4px);
+        z-index: -1;
+    }
+
+    .content {
+        position: relative;
+        z-index: 1;
+        color: white;
+        padding: 20px;
+        margin: 0;
+        height: 100%;
+        overflow: auto;
+        background: transparent;
+    }
+
+    .main-title {
+        font-size: 3rem;
+        text-align: center;
+        margin-bottom: 20px;
+        color: #FFD700;
+        text-shadow: 2px 2px 4px #000000;
+        font-family: 'Georgia', serif;
+    }
+
+    .category-title {
+        font-size: 2rem;
+        margin-bottom: 15px;
+        border-bottom: 2px solid #FFD700;
+        padding-bottom: 5px;
+        color: #FFFFFF;
+        text-shadow: 1px 1px 3px #000000;
+        font-family: 'Georgia', serif;
+    }
+
+    .transparent-box {
+        background: rgba(0, 0, 0, 0.5);
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 15px;
+        transition: transform 0.3s ease, background 0.3s ease;
+        cursor: pointer;
+    }
+
+        .transparent-box:hover {
+            transform: scale(1.05);
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+    .yemek {
+        margin-bottom: 30px;
+    }
+
+        .yemek img {
+            float: left;
+            margin-right: 20px;
+            border-radius: 10px;
+            max-width: 100%;
+        }
+
+        .yemek h3 {
+            margin-top: 0;
+        }
+
+    #searchBar {
+        width: 100%;
+        padding: 12px;
+        margin: 12px 0;
+        box-sizing: border-box;
+        border: none;
+        border-radius: 20px;
+        font-size: 1rem;
+    }
+
+        #searchBar:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+        }
+
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 2;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 800px;
+        color: black;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+    .modal-inner {
+        display: flex;
+        width: 100%;
+        align-items: flex-start;
+        margin-bottom: 20px;
+    }
+
+    .modal img {
+        max-width: 40%;
+        height: auto;
+        border-radius: 10px;
+        margin-right: 20px;
+        object-fit: contain;
+    }
+
+    .modal-text {
+        width: 60%;
+        font-size: 1.2rem;
+    }
+
+    .modal h3 {
+        margin-top: 0;
+        font-size: 2rem;
+    }
+
+    .modal ul {
+        padding-left: 20px;
+    }
+
+        .modal ul li {
+            list-style-type: disc;
+        }
+</style>
+
+<script>
+    function showModal(imageUrl, title, ingredients, instructions) {
+        var modal = document.getElementById('tarifModal');
+        document.getElementById('modalImage').src = imageUrl;
+        document.getElementById('modalTitle').innerText = title;
+
+        var ingredientsList = document.getElementById('modalIngredientsList');
+        ingredientsList.innerHTML = '';
+        var ingredientsArray = ingredients.split(',');
+        ingredientsArray.forEach(function(item) {
+            var li = document.createElement('li');
+            li.innerText = item.trim();
+            ingredientsList.appendChild(li);
+        });
+
+        document.getElementById('modalInstructions').innerText = instructions;
+        modal.style.display = "flex";
+    }
+
+    function closeModal() {
+        var modal = document.getElementById('tarifModal');
+        modal.style.display = "none";
+    }
+
+
+    function searchYemek() {
+        var input, filter, yemekListesi, yemekler, h3, i, txtValue;
+        input = document.getElementById('searchBar');
+        filter = input.value.toUpperCase();
+        yemekListesi = document.getElementById("yemekListesi");
+        yemekler = yemekListesi.getElementsByClassName('yemek');
+
+        for (i = 0; i < yemekler.length; i++) {
+            h3 = yemekler[i].getElementsByTagName("h3")[0];
+            txtValue = h3.textContent || h3.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                yemekler[i].style.display = "";
+            } else {
+                yemekler[i].style.display = "none";
+            }
+        }
+    }
+</script>
